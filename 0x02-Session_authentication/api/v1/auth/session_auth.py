@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """ Module of Session Authentication
 """
@@ -63,3 +64,4 @@ class SessionAuth(Auth):
             pass
 
         return True
+
