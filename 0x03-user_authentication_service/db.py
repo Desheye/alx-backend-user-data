@@ -8,8 +8,10 @@ from sqlalchemy.orm.exc import NoResultFound
 from typing import TypeVar
 from user import Base, User
 
+
 class DB:
     """ Database class for Object Relational Mapping """
+
     def __init__(self):
         """ Initialize database connection and tables """
         self._engine = create_engine("sqlite:///a.db", echo=False)

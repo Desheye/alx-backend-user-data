@@ -6,11 +6,13 @@ from flask import Flask, jsonify, request, abort, redirect
 app = Flask(__name__)
 AUTH = Auth()
 
+
 @app.route('/', methods=['GET'])
 def hello_world() -> str:
     """ Root endpoint for the authentication service API """
     msg = {"message": "Bienvenue"}
     return jsonify(msg)
+
 
 @app.route('/users', methods=['POST'])
 def register_user() -> str:
@@ -26,6 +28,7 @@ def register_user() -> str:
         return jsonify({"message": "email already registered"}), 400
     msg = {"email": email, "message": "user created"}
     return jsonify(msg)
+
 
 @app.route('/sessions', methods=['POST'])
 def log_in() -> str:
@@ -43,6 +46,7 @@ def log_in() -> str:
     response.set_cookie("session_id", session_id)
     return response
 
+
 @app.route('/sessions', methods=['DELETE'])
 def log_out() -> str:
     """Terminates a user session
@@ -57,6 +61,7 @@ def log_out() -> str:
         abort(403)
     AUTH.destroy_session(user.id)
     return redirect('/')
+
 
 @app.route('/profile', methods=['GET'])
 def profile() -> str:
@@ -73,11 +78,13 @@ def profile() -> str:
     msg = {"email": user.email}
     return jsonify(msg), 200
 
+
 @app.route('/reset_password', methods=['POST'])
 def reset_password() -> str:
     """Initiates password reset process
     Returns a 403 status code if the email is not registered.
-    Otherwise, generates a token and returns a 200 HTTP status with JSON payload.
+    Otherwise, generates a token and
+    returns a 200 HTTP status with JSON payload.
     """
     try:
         email = request.form['email']
@@ -89,6 +96,7 @@ def reset_password() -> str:
         abort(403)
     msg = {"email": email, "reset_token": reset_token}
     return jsonify(msg), 200
+
 
 @app.route('/reset_password', methods=['PUT'])
 def update_password() -> str:
@@ -110,6 +118,7 @@ def update_password() -> str:
         abort(403)
     msg = {"email": email, "message": "Password updated"}
     return jsonify(msg), 200
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", threaded=False)
